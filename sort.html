@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .food-container{
+            width: 100%;
+            height: 100%;
+        }
+        .food-item{
+            width: 100%;
+            height: 100px;
+            background-color: darkgreen;
+            color: #fff;
+        }
+
+        .food-body{
+            width: 100%;
+            height: 75px;
+            line-height: 75px;
+            text-align: center;
+        }
+        .food-handle{
+            width: 100%;
+            height: 25px;
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="food-container">
+        <div class="food-item">
+            <div class="food-handle"></div>
+            <div class="food-body" draggable="true">1</div>
+        </div>
+        <div class="food-item">
+            <div class="food-handle"></div>
+            <div class="food-body" draggable="true">2</div>
+        </div>
+        <div class="food-item">
+            <div class="food-handle"></div>
+            <div class="food-body" draggable="true">3</div>
+        </div>
+    </div>
+<script src="https://cdn.bootcss.com/jquery/2.2.3/jquery.js"></script>
+<script src="https://cdn.bootcss.com/Sortable/1.6.0/Sortable.js"></script>
+<script>
+    var container = document.getElementsByClassName("food-container")[0];
+    // 'handle' option
+    Sortable.create(container, {
+        handle: '.food-handle',
+        animation: 150
+    });
+    var index = undefined;
+    $(".food-item").on("drop",function (ev) {
+        reIndex();
+    });
+   $(".food-body").on("dragstart",function (ev) {
+       var txt = ev.target.innerText;
+       index = parseInt(ev.originalEvent.target.dataset.index);
+       console.log("dragstart:"+txt);
+       ev.originalEvent.dataTransfer.setData("TEXT",txt);
+   });
+    $(".food-body").on("dragenter",function (ev) {
+        ev.preventDefault();
+    });
+    $(".food-body").on("dragover",function (ev) {
+        ev.preventDefault();
+    });
+    $(".food-body").on("drop",function (ev) {
+        var txt = ev.originalEvent.dataTransfer.getData("TEXT");
+        if(undefined !== index){
+            var oEl = $(".food-body").get(parseInt(index));
+            var el = ev.originalEvent.target;
+            console.log("----drop----");
+            console.log(el);
+            var tmp = el.innerText;
+            oEl.innerText = tmp;
+            el.innerText = txt;
+            index = undefined;
+        }
+    });
+    reIndex();
+    function reIndex() {
+        var foodList = $(".food-body");
+        for(var i=0;i<foodList.length;i++){
+            foodList.get(i).dataset.index = i;
+        }
+    }
+</script>
+</body>
+</html>

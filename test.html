@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="src/js/version.js"></script>
+    <script>
+        var version = new Version("1");
+        version.link([
+            "src/css/test.css"
+        ]);
+        version.script([
+            "src/js/test.js",
+        ]);
+
+    </script>
+</head>
+<body>
+    <p>hello world</p>
+    <div>
+
+    </div>
+    <script src="https://cdn.bootcss.com/Sortable/1.6.0/Sortable.js"></script>
+    <script >
+        version.ready(function () {
+            hello();
+        });
+    </script>
+</body>
+</html>
